@@ -2,6 +2,8 @@ package sample;
 
 import javafx.scene.paint.Paint;
 
+import java.util.ArrayList;
+
 public class Obdelnik {
 
     private double x;
@@ -10,6 +12,8 @@ public class Obdelnik {
     private double vyska;
     private Paint barva;
     private double rychlost;
+    private ArrayList<String> barvy = new ArrayList<>();
+    private int soucasnaBarva = 0;
 
     public Obdelnik(double x, double y, double sirka, double vyska, Paint barva, double rychlost) {
         this.x = x;
@@ -18,6 +22,18 @@ public class Obdelnik {
         this.vyska = vyska;
         this.barva = barva;
         this.rychlost = rychlost;
+        barvy.add("RED");
+        barvy.add("GREEN");
+        barvy.add("BLUE");
+    }
+
+    public void zmenitBarvu() {
+        barva = Paint.valueOf(barvy.get(soucasnaBarva));
+        if (soucasnaBarva == 2) {
+            soucasnaBarva = 0;
+        } else {
+            soucasnaBarva++;
+        }
     }
 
     public double getRychlost() {

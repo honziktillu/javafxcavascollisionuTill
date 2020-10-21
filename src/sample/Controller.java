@@ -24,14 +24,13 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gc = canvas.getGraphicsContext2D();
-        obdelnik = new Obdelnik(100, 100, 50, 50, Paint.valueOf("GREEN"), 1);
+        obdelnik = new Obdelnik(100, 100, 50, 50, Paint.valueOf("GREEN"), 10);
         obdelnik2 = new Obdelnik(500, 200, 50, 50, Paint.valueOf("RED"), 10);
         vstup = new ArrayList<>();
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 move();
-                collision();
                 gc.setFill(Paint.valueOf("WHITE"));
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 gc.setFill(obdelnik.getBarva());
@@ -44,31 +43,45 @@ public class Controller implements Initializable {
 
     }
 
-    public void collision() {
+    public boolean collision() {
         if
         (
-           obdelnik.getX() < obdelnik2.getX() + obdelnik2.getSirka() &&
-           obdelnik.getX() + obdelnik.getSirka() > obdelnik2.getX() &&
-           obdelnik.getY() < obdelnik2.getY() + obdelnik2.getVyska() &&
-           obdelnik.getY() + obdelnik.getVyska() > obdelnik2.getY()
-
+            obdelnik.getX() < obdelnik2.getX() + obdelnik2.getSirka() &&
+            obdelnik.getX() + obdelnik.getSirka() > obdelnik2.getX() &&
+            obdelnik.getY() < obdelnik2.getY() + obdelnik2.getVyska() &&
+            obdelnik.getY() + obdelnik.getVyska()  > obdelnik2.getY()
         ) {
-            System.out.println("Kolize");
+            obdelnik2.zmenitBarvu();
+            return true;
+        } else {
+            return false;
         }
     }
 
     public void move() {
         if (vstup.contains("W")) {
             obdelnik.setY(obdelnik.getY() - obdelnik.getRychlost());
+            if (collision()) {
+                obdelnik.setY(obdelnik.getY() + obdelnik.getRychlost());
+            }
         }
         if (vstup.contains("S")) {
             obdelnik.setY(obdelnik.getY() + obdelnik.getRychlost());
+            if (collision()) {
+                obdelnik.setY(obdelnik.getY() - obdelnik.getRychlost());
+            }
         }
         if (vstup.contains("D")) {
             obdelnik.setX(obdelnik.getX() + obdelnik.getRychlost());
+            if (collision()) {
+                obdelnik.setX(obdelnik.getX() - obdelnik.getRychlost());
+            }
         }
         if (vstup.contains("A")) {
             obdelnik.setX(obdelnik.getX() - obdelnik.getRychlost());
+            if (collision()) {
+                obdelnik.setX(obdelnik.getX() + obdelnik.getRychlost());
+            }
         }
     }
 
