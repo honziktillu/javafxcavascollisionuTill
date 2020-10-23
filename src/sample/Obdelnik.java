@@ -13,6 +13,7 @@ public class Obdelnik {
     private Paint barva;
     private double rychlost;
     private ArrayList<String> barvy = new ArrayList<>();
+    private int hp = 100;
     private int soucasnaBarva = 0;
 
     public Obdelnik(double x, double y, double sirka, double vyska, Paint barva, double rychlost) {
@@ -25,15 +26,44 @@ public class Obdelnik {
         barvy.add("RED");
         barvy.add("GREEN");
         barvy.add("BLUE");
+        barvy.add("BLACK");
     }
 
     public void zmenitBarvu() {
-        barva = Paint.valueOf(barvy.get(soucasnaBarva));
-        if (soucasnaBarva == 2) {
-            soucasnaBarva = 0;
-        } else {
-            soucasnaBarva++;
+        if (hp == 100) {
+            barva = Paint.valueOf(barvy.get(1));
         }
+        if (hp < 100 && hp > 10) {
+            barva = Paint.valueOf(barvy.get(2));
+        }
+        if (hp <= 10) {
+            barva = Paint.valueOf(barvy.get(0));
+        }
+        if (hp == 0) {
+            barva = Paint.valueOf(barvy.get(3));
+        }
+    }
+
+    public void reduceHp() {
+        if (hp > 0) {
+            hp--;
+        }
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getSoucasnaBarva() {
+        return soucasnaBarva;
+    }
+
+    public void setSoucasnaBarva(int soucasnaBarva) {
+        this.soucasnaBarva = soucasnaBarva;
     }
 
     public double getRychlost() {
